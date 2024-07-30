@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { Button } from "../ui/button";
 
 const Navbar = () => {
@@ -8,7 +10,9 @@ const Navbar = () => {
       </p>
 
       <div className="flex gap-x-4 items-center">
-        <Button variant={"ghost"}>Login</Button>
+        <Button variant={"ghost"} asChild>
+          <Link to={"/login"}>Login</Link>
+        </Button>
         <Button>Signup</Button>
       </div>
     </nav>
