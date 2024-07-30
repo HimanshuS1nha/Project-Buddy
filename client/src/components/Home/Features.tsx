@@ -3,10 +3,10 @@ import { features } from "../../../constants/features";
 
 const Features = () => {
   return (
-    <section className="flex flex-col items-center gap-y-8 bg-gray-100 py-4">
+    <section className="flex flex-col items-center gap-y-12 bg-gray-100 py-4">
       <Title>Features and Benefits</Title>
 
-      <div className="flex flex-wrap w-[1200px] justify-between">
+      <div className="flex flex-wrap w-[1200px] justify-between gap-y-8">
         {features.map((feature) => {
           return (
             <div
