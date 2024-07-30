@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { ZodError } from "zod";
 import { compare } from "bcrypt";
+import { sign } from "jsonwebtoken";
 
 import { loginValidator } from "../validators/login-validator";
 import prisma from "../libs/db";
@@ -25,7 +26,9 @@ loginRouter.post("/", async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    res.cookie("token", user.email, {
+    const token = sign(user.email, process.env.JWT_SECRET!);
+
+    res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
       path: "/",

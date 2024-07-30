@@ -3,6 +3,7 @@ import { createServer } from "http";
 import cookieParser from "cookie-parser";
 
 import { loginRouter } from "./routes/login-router";
+import { signupRouter } from "./routes/signup-router";
 
 const app = express();
 const server = createServer(app);
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/login", loginRouter);
+app.use("/api/signup", signupRouter);
 
 app.get("/", (_, res) => {
   return res.send("Hello World");
