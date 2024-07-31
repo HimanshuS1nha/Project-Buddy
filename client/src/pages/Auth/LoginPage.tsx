@@ -1,10 +1,63 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { ZodError } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  loginValidator,
+  loginValidatorType,
+} from "../../../validators/login-validator";
+import { UserType } from "../../../types";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<loginValidatorType>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: zodResolver(loginValidator),
+  });
+
+  const { mutate: handleLogin, isPending } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async (values: loginValidatorType) => {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        {
+          ...values,
+        }
+      );
+
+      return data as { message: string; user: UserType };
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      reset();
+      navigate("/dashboard");
+    },
+    onError: (error) => {
+      if (error instanceof ZodError) {
+        toast.error(error.errors[0].message);
+      } else if (error instanceof AxiosError && error.response?.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Some error occured. Please try again later!");
+      }
+    },
+  });
   return (
     <div className="bg-gray-100 h-screen overflow-y-hidden flex justify-center items-center">
       <div className="w-[35%] rounded-xl bg-white flex flex-col p-6 gap-y-9">
@@ -17,17 +70,44 @@ const LoginPage = () => {
           <p className="text-gray-700 text-sm">Login to your account</p>
         </div>
 
-        <div className="flex flex-col gap-y-6 w-full">
+        <form
+          className="flex flex-col gap-y-6 w-full"
+          onSubmit={handleSubmit((data) => handleLogin(data))}
+        >
           <div className="flex flex-col gap-y-2.5">
-            <Label>Email</Label>
-            <Input placeholder="Enter your email" type="email" />
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              placeholder="Enter your email"
+              type="email"
+              required
+              {...register("email", { required: true })}
+            />
+            {errors.email && (
+              <p className="text-rose-500 text-sm font-semibold">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div className="flex flex-col gap-y-2.5">
-            <Label>Password</Label>
-            <Input placeholder="Enter your password" type="password" />
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              placeholder="Enter your password"
+              type="password"
+              required
+              {...register("password", { required: true })}
+            />
+            {errors.password && (
+              <p className="text-rose-500 text-sm font-semibold">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          <Button>Login</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Please wait..." : "Login"}
+          </Button>
 
           <div className="flex justify-center gap-x-2 items-center">
             <p>Don&apos;t have an account?</p>
@@ -38,7 +118,7 @@ const LoginPage = () => {
               Signup
             </Link>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
