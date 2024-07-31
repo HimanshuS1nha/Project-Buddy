@@ -6,6 +6,8 @@ import LoginPage from "./pages/Auth/LoginPage";
 import SignupPage from "./pages/Auth/SignupPage";
 
 import ProjectsPage from "./pages/Dashboard/ProjectsPage";
+import ChatsPage from "./pages/Dashboard/ChatsPage";
+import SettingsPage from "./pages/Dashboard/SettingsPage";
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
       <Route path="/signup" Component={SignupPage} />
 
       <Route path="/dashboard/projects" Component={ProjectsPage} />
+      <Route path="/dashboard/chats" Component={ChatsPage} />
+      <Route path="/dashboard/settings" Component={SettingsPage} />
     </Routes>
   );
 };

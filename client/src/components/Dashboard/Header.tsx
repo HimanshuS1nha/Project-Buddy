@@ -1,8 +1,9 @@
 import { FaRegBell } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { IoChatboxEllipsesOutline, IoFolderOpen } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
-const Header = ({ active }: { active?: "projects" | "chats" | "settings" }) => {
+const Header = ({ active }: { active?: "projects" | "settings" }) => {
   return (
     <div className="h-[8vh] px-6 flex items-center justify-between">
       <div className="flex gap-x-10 items-center">
@@ -20,7 +21,8 @@ const Header = ({ active }: { active?: "projects" | "chats" | "settings" }) => {
         </div>
 
         <div className="flex gap-x-7">
-          <div
+          <Link
+            to={"/dashboard/projects"}
             className={`flex gap-x-2 items-center relative ${
               active === "projects" ? "" : "hover:bg-green-100"
             } p-1.5 cursor-pointer delay-100 transition-all rounded-lg`}
@@ -30,19 +32,9 @@ const Header = ({ active }: { active?: "projects" | "chats" | "settings" }) => {
             {active === "projects" && (
               <div className="w-full h-[3.5px] bg-green-600 absolute -bottom-2" />
             )}
-          </div>
-          <div
-            className={`flex gap-x-2 items-center relative ${
-              active === "chats" ? "" : "hover:bg-green-100"
-            } p-1.5 cursor-pointer delay-100 transition-all rounded-lg`}
-          >
-            <IoChatboxEllipsesOutline color="black" size={23} />
-            <p className="font-semibold">Chats</p>
-            {active === "chats" && (
-              <div className="w-full h-[3.5px] bg-green-600 absolute -bottom-2" />
-            )}
-          </div>
-          <div
+          </Link>
+          <Link
+            to={"/dashboard/settings"}
             className={`flex gap-x-2 items-center relative ${
               active === "settings" ? "" : "hover:bg-green-100"
             } p-1.5 cursor-pointer delay-100 transition-all rounded-lg`}
@@ -52,11 +44,17 @@ const Header = ({ active }: { active?: "projects" | "chats" | "settings" }) => {
             {active === "settings" && (
               <div className="w-full h-[3.5px] bg-green-600 absolute -bottom-2" />
             )}
-          </div>
+          </Link>
         </div>
       </div>
 
       <div className="flex gap-x-5 items-center">
+        <Link
+          to={"/dashboard/chats"}
+          className="hover:scale-105 delay-100 transition-all"
+        >
+          <IoChatboxEllipsesOutline color="black" size={23} />
+        </Link>
         <FaRegBell size={23} color="black" />
         <div className="bg-green-600 w-8 h-8 rounded-full flex justify-center items-center">
           <p className="text-white">H</p>
