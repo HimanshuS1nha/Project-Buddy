@@ -3,6 +3,7 @@ import Footer from "@/components/Home/Footer";
 import Navbar from "@/components/Home/Navbar";
 import Pricing from "@/components/Home/Pricing";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -22,7 +23,9 @@ const HomePage = () => {
             necessitatibus est laudantium, facere distinctio assumenda hic
             aliquam ratione soluta consequatur adipisci!
           </p>
-          <Button className="w-fit">Get Started</Button>
+          <Button className="w-fit" asChild>
+            <Link to={"/dashboard/projects"}>Try for free</Link>
+          </Button>
         </div>
 
         <img
