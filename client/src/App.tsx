@@ -18,8 +18,8 @@ const App = () => {
       <Route path="/signup" Component={SignupPage} />
 
       <Route path="/dashboard/projects" Component={ProjectsPage} />
-      <Route path="/dashboard/chats" Component={ChatsPage} />
       <Route path="/dashboard/settings" Component={SettingsPage} />
+      <Route path="/dashboard/chats" Component={ChatsPage} />
     </Routes>
   );
 };

@@ -3,6 +3,15 @@ import { IoMdSettings } from "react-icons/io";
 import { IoChatboxEllipsesOutline, IoFolderOpen } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const Header = ({ active }: { active?: "projects" | "settings" }) => {
   return (
     <div className="h-[8vh] px-6 flex items-center justify-between">
@@ -56,9 +65,20 @@ const Header = ({ active }: { active?: "projects" | "settings" }) => {
           <IoChatboxEllipsesOutline color="black" size={23} />
         </Link>
         <FaRegBell size={23} color="black" />
-        <div className="bg-green-600 w-8 h-8 rounded-full flex justify-center items-center">
-          <p className="text-white">H</p>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div className="bg-green-600 w-8 h-8 rounded-full flex justify-center items-center">
+              <p className="text-white">H</p>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer focus:bg-rose-500 focus:text-white">
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
