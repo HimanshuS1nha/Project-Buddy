@@ -49,7 +49,7 @@ const LoginPage = () => {
       toast.success(data.message);
       setUser({ ...data.user, isLoggedIn: true });
       reset();
-      navigate("/dashboard");
+      navigate("/dashboard/projects");
     },
     onError: (error) => {
       if (error instanceof ZodError) {
@@ -64,7 +64,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (user?.isLoggedIn) {
-      navigate("/dashboard");
+      navigate("/dashboard/projects");
     }
   }, []);
   return (
