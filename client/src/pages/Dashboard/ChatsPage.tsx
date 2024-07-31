@@ -18,12 +18,14 @@ const ChatsPage = () => {
 
   const messages = [
     {
+      id: 1,
       sentBy: 1,
       sentTo: 2,
       sentAt: "12:00AM",
       content: "Hello",
     },
     {
+      id: 2,
       sentBy: 2,
       sentTo: 1,
       sentAt: "12:01AM",
@@ -51,16 +53,37 @@ const ChatsPage = () => {
           </div>
         </div>
 
-        <div className="w-full h-full relative">
+        <div className="w-full h-full relative pb-44">
           <div className="flex items-center justify-between px-3 border-b border-b-gray-300 py-2">
             <p className="text-lg font-semibold">Random User</p>
             <IoEllipsisVertical size={24} color="black" />
           </div>
 
-          
+          <div className="flex flex-col gap-y-3 mt-2 px-4 w-full h-full overflow-y-auto">
+            {messages.map((message) => {
+              return (
+                <div
+                  className={`w-full flex ${
+                    message.sentBy === 1 ? "justify-end" : "justfy-start"
+                  }`}
+                  key={message.id}
+                >
+                  <div
+                    className={`rounded-xl ${
+                      message.sentBy === 1
+                        ? "bg-green-600 rounded-br-none"
+                        : "bg-black rounded-tl-none"
+                    } p-3 min-w-[10%] max-w-[70%] shadow-md shadow-gray-300`}
+                  >
+                    <p className="text-white">{message.content}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
           <div className="absolute bottom-[8.9%] w-full px-2 flex gap-x-4">
-            <Input placeholder="Type a message" className="w-[95%]" />
+            <Input placeholder="Type a message" className="w-[93%]" />
             <Button>
               <IoSend size={23} color="white" />
             </Button>
