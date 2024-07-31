@@ -64,7 +64,12 @@ const Header = ({ active }: { active?: "projects" | "settings" }) => {
         >
           <IoChatboxEllipsesOutline color="black" size={23} />
         </Link>
-        <FaRegBell size={23} color="black" />
+        <Link
+          to={"/dashboard/notifications"}
+          className="hover:scale-105 delay-100 transition-all"
+        >
+          <FaRegBell size={23} color="black" />
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="bg-green-600 w-8 h-8 rounded-full flex justify-center items-center">
