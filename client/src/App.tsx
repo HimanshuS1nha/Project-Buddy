@@ -9,6 +9,7 @@ import ProjectsPage from "./pages/Dashboard/ProjectsPage";
 import ChatsPage from "./pages/Dashboard/ChatsPage";
 import SettingsPage from "./pages/Dashboard/SettingsPage";
 import NotificationsPage from "./pages/Dashboard/NotificationsPage";
+import ProjectPage from "./pages/Dashboard/ProjectPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <Route path="/dashboard/settings" Component={SettingsPage} />
       <Route path="/dashboard/chats" Component={ChatsPage} />
       <Route path="/dashboard/notifications" Component={NotificationsPage} />
+      <Route path="/dashboard/projects/:id" Component={ProjectPage} />
     </Routes>
   );
 };

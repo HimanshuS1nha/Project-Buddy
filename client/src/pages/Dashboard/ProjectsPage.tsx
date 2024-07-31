@@ -1,5 +1,6 @@
 import { GoDotFill } from "react-icons/go";
 import { IoEllipsisVertical } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 import Header from "@/components/Dashboard/Header";
 import { Input } from "@/components/ui/input";
@@ -63,11 +64,16 @@ const ProjectsPage = () => {
             return (
               <div
                 key={project.id}
-                className="border border-gray-300 hover:border-green-600 delay-100 transition-all cursor-pointer w-[420px] rounded-lg py-3 px-6 flex flex-col gap-y-5"
+                className="border border-gray-300 w-[420px] rounded-lg py-3 px-6 flex flex-col gap-y-5"
               >
                 <div className="flex flex-col gap-y-1.5">
                   <div className="flex justify-between items-center">
-                    <p className="text-lg font-semibold">{project.title}</p>
+                    <Link
+                      to={`/dashboard/projects/${project.id}`}
+                      className="hover:text-green-600 delay-100 transition-all"
+                    >
+                      <p className="text-lg font-semibold">{project.title}</p>
+                    </Link>
 
                     <DropdownMenu>
                       <DropdownMenuTrigger className="focus:outline-none">
