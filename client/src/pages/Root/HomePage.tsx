@@ -1,5 +1,7 @@
 import Features from "@/components/Home/Features";
+import Footer from "@/components/Home/Footer";
 import Navbar from "@/components/Home/Navbar";
+import Pricing from "@/components/Home/Pricing";
 import { Button } from "@/components/ui/button";
 
 const HomePage = () => {
@@ -29,7 +31,10 @@ const HomePage = () => {
           className="w-[600px] rounded-lg"
         />
       </main>
+
       <Features />
+      <Pricing />
+      <Footer />
     </>
   );
 };

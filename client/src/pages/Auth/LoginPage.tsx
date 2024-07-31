@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { ZodError } from "zod";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,11 +14,11 @@ import {
   loginValidator,
   loginValidatorType,
 } from "../../../validators/login-validator";
-import { UserType } from "../../../types";
-import toast from "react-hot-toast";
+import { useUser } from "@/hooks/useUser";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { setUser, user } = useUser();
 
   const {
     register,
@@ -41,10 +43,11 @@ const LoginPage = () => {
         }
       );
 
-      return data as { message: string; user: UserType };
+      return data as { message: string; user: { name: string; email: string } };
     },
     onSuccess: (data) => {
       toast.success(data.message);
+      setUser({ ...data.user, isLoggedIn: true });
       reset();
       navigate("/dashboard");
     },
@@ -58,6 +61,12 @@ const LoginPage = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (user?.isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, []);
   return (
     <div className="bg-gray-100 h-screen overflow-y-hidden flex justify-center items-center">
       <div className="w-[35%] rounded-xl bg-white flex flex-col p-6 gap-y-9">
