@@ -18,15 +18,23 @@ enum ProjectStatus {
   Building
 }
 
+enum TaskStatus {
+  Pending
+  Review
+  Completed
+}
+
 model Users {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   email    String @unique
   password String
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Project   Projects[]
+  Tasks    Tasks[]
+  Projects Projects[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Projects {
@@ -34,10 +42,42 @@ model Projects {
   title       String
   description String?
   status      ProjectStatus
-  createdBy   String
 
-  user Users @relation(references: [email], fields: [createdBy], onDelete: Cascade)
+  createdBy String
+  user      Users  @relation(references: [email], fields: [createdBy], onDelete: Cascade)
+
+  tasks Tasks[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Tasks {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  startDate String
+  endDate   String
+  status    TaskStatus
+
+  projectId String   @db.ObjectId
+  Projects   Projects @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assignedTo String[]
+  users      Users    @relation(fields: [assignedTo], references: [email])
+
+  comments Comments[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comments {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  sentBy  String
+  sentTo  String
+
+  tasksId String? @db.ObjectId
+  Tasks   Tasks?  @relation(fields: [tasksId], references: [id])
+
+  createdAt DateTime @default(now())
 }

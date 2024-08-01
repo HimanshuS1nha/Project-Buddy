@@ -11,6 +11,7 @@ import { getProjectsRouter } from "./routes/get-projects-router";
 import { deleteProjectRouter } from "./routes/delete-project-router";
 import { getProjectRouter } from "./routes/get-project-router";
 import { deleteAllProjectsRouter } from "./routes/delete-all-projects-router";
+import { createTaskRouter } from "./routes/create-task-router";
 
 const app = express();
 const server = createServer(app);
@@ -28,6 +29,8 @@ app.use("/api/get-projects", getProjectsRouter);
 app.use("/api/get-project", getProjectRouter);
 app.use("/api/delete-project", deleteProjectRouter);
 app.use("/api/delete-all-projects", deleteAllProjectsRouter);
+app.use("/api/change-password", deleteAllProjectsRouter);
+app.use("/api/create-task", createTaskRouter);
 
 app.get("/", (_, res) => {
   return res.send("Hello World");
