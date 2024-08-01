@@ -42,10 +42,6 @@ Manage your projects seemlessly with full control.
 - NodeJS
 - MongoDB
 
-## Demo
-
-Live Demo - [Click Here](https://myprojectbuddy.vercel.app)
-
 ## 🚀 About Me
 
 My name is Himanshu Sinha and I'm a full stack developer.
