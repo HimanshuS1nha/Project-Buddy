@@ -7,6 +7,7 @@ import { loginRouter } from "./routes/login-router";
 import { signupRouter } from "./routes/signup-router";
 import { isLoggedInRouter } from "./routes/is-logged-in-router";
 import { createProjectRouter } from "./routes/create-project-router";
+import { getProjectsRouter } from "./routes/get-projects-router";
 
 const app = express();
 const server = createServer(app);
@@ -20,6 +21,7 @@ app.use("/api/login", loginRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/is-logged-in", isLoggedInRouter);
 app.use("/api/create-project", createProjectRouter);
+app.use("/api/get-projects", getProjectsRouter);
 
 app.get("/", (_, res) => {
   return res.send("Hello World");
