@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 import HomePage from "./pages/Root/HomePage";
 
@@ -10,8 +12,31 @@ import ChatsPage from "./pages/Dashboard/ChatsPage";
 import SettingsPage from "./pages/Dashboard/SettingsPage";
 import NotificationsPage from "./pages/Dashboard/NotificationsPage";
 import ProjectPage from "./pages/Dashboard/ProjectPage";
+import { useUser } from "./hooks/useUser";
+import { useEffect } from "react";
 
 const App = () => {
+  const { user, setUser } = useUser();
+
+  const { mutate: checkLoginStatus } = useMutation({
+    mutationKey: ["is-logged-in"],
+    mutationFn: async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/is-logged-in`,
+        { withCredentials: true }
+      );
+      return data as { user: { name: string; email: string } };
+    },
+    onSuccess: (data) => {
+      setUser({ ...data.user, isLoggedIn: true });
+    },
+  });
+
+  useEffect(() => {
+    if (!user?.isLoggedIn) {
+      checkLoginStatus();
+    }
+  }, []);
   return (
     <Routes>
       <Route path="/" Component={HomePage} />

@@ -24,7 +24,7 @@ const HomePage = () => {
             aliquam ratione soluta consequatur adipisci!
           </p>
           <Button className="w-fit" asChild>
-            <Link to={"/dashboard/projects"}>Try for free</Link>
+            <Link to={"/signup"}>Try for free</Link>
           </Button>
         </div>
 

@@ -40,6 +40,9 @@ const LoginPage = () => {
         `${import.meta.env.VITE_API_URL}/login`,
         {
           ...values,
+        },
+        {
+          withCredentials: true,
         }
       );
 
@@ -66,7 +69,7 @@ const LoginPage = () => {
     if (user?.isLoggedIn) {
       navigate("/dashboard/projects");
     }
-  }, []);
+  }, [user?.isLoggedIn]);
   return (
     <div className="bg-gray-100 h-screen overflow-y-hidden flex justify-center items-center">
       <div className="w-[35%] rounded-xl bg-white flex flex-col p-6 gap-y-9">

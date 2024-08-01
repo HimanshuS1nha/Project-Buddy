@@ -14,6 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SignedIn from "@/components/Dashboard/SignedIn";
+import { useState } from "react";
+import CreateNewProjectDialog from "@/components/Dashboard/CreateNewProjectDialog";
 
 const ProjectsPage = () => {
   const dummyProjects = [
@@ -50,15 +52,21 @@ const ProjectsPage = () => {
       updatedAt: "1 day ago",
     },
   ];
+
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <SignedIn>
+      <CreateNewProjectDialog
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <div className="w-full h-screen">
         <Header active="projects" />
 
         <div className="mt-10 px-20 flex flex-col gap-y-8 pb-10">
           <div className="flex gap-x-4 items-center">
             <Input placeholder="Search projects" />
-            <Button>New Project</Button>
+            <Button onClick={()=>setIsVisible(true)}>New Project</Button>
           </div>
 
           <div className="flex flex-wrap gap-x-7 items-center gap-y-6">

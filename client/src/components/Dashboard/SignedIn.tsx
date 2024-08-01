@@ -9,12 +9,14 @@ const SignedIn = ({ children }: { children: React.ReactNode }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (user?.isLoggedIn) {
-      setIsVisible(true);
-    } else {
-      navigate("/login", { replace: true });
+    if (user) {
+      if (user?.isLoggedIn) {
+        setIsVisible(true);
+      } else {
+        navigate("/login", { replace: true });
+      }
     }
-  }, []);
+  }, [user]);
 
   if (isVisible) {
     return <>{children}</>;
