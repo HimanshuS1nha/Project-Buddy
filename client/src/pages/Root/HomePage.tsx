@@ -1,7 +1,5 @@
 import Features from "@/components/Home/Features";
-import Footer from "@/components/Home/Footer";
 import Navbar from "@/components/Home/Navbar";
-import Pricing from "@/components/Home/Pricing";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -36,8 +34,6 @@ const HomePage = () => {
       </main>
 
       <Features />
-      <Pricing />
-      <Footer />
     </>
   );
 };
