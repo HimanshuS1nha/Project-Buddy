@@ -45,7 +45,7 @@ loginRouter.post("/", async (req, res) => {
       return res.status(422).json({ error: error.errors[0].message });
     } else {
       return res
-        .status(422)
+        .status(500)
         .json({ error: "Some error occured. Please try again later!" });
     }
   }

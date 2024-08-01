@@ -5,17 +5,19 @@ import cors from "cors";
 
 import { loginRouter } from "./routes/login-router";
 import { signupRouter } from "./routes/signup-router";
+import { isLoggedInRouter } from "./routes/is-logged-in-router";
 
 const app = express();
 const server = createServer(app);
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
 
 app.use("/api/login", loginRouter);
 app.use("/api/signup", signupRouter);
+app.use("/api/is-logged-in", isLoggedInRouter);
 
 app.get("/", (_, res) => {
   return res.send("Hello World");
