@@ -29,12 +29,20 @@ import {
   createProjectValidatorType,
 } from "../../../validators/create-project-validator";
 
-const CreateNewProjectDialog = ({
+const EditProjectDialog = ({
   isVisible,
   setIsVisible,
+  title,
+  status,
+  description,
+  id,
 }: {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
+  status: "Live" | "Building";
+  description?: string;
+  id: string;
 }) => {
   const queryClient = useQueryClient();
 
@@ -46,28 +54,36 @@ const CreateNewProjectDialog = ({
     setValue,
   } = useForm<createProjectValidatorType>({
     defaultValues: {
-      description: "",
-      status: "",
-      title: "",
+      description: description,
+      status: status,
+      title: title,
     },
     resolver: zodResolver(createProjectValidator),
   });
 
-  const { mutate: handleCreateProject, isPending } = useMutation({
-    mutationKey: ["create-project"],
+  const { mutate: handleEditProject, isPending } = useMutation({
+    mutationKey: ["edit-project"],
     mutationFn: async (values: createProjectValidatorType) => {
       if (values.status === "") {
         throw new Error("Please select a status");
       }
+      if (
+        values.status === status &&
+        values.description === description &&
+        values.title === title
+      ) {
+        throw new Error("Please change something first");
+      }
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/create-project`,
-        { ...values },
+        `${import.meta.env.VITE_API_URL}/edit-project`,
+        { ...values, id },
         { withCredentials: true }
       );
       return data as { message: string };
     },
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["get-projects"] });
+      await queryClient.invalidateQueries({ queryKey: ["get-project"] });
       toast.success(data.message);
       reset();
       setIsVisible(false);
@@ -86,12 +102,12 @@ const CreateNewProjectDialog = ({
     <Dialog open={isVisible} onOpenChange={() => setIsVisible(false)}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create Project</DialogTitle>
-          <DialogDescription>Click create when you're done.</DialogDescription>
+          <DialogTitle>Edit Project</DialogTitle>
+          <DialogDescription>Click edit when you're done.</DialogDescription>
         </DialogHeader>
         <form
           className="flex flex-col gap-y-6"
-          onSubmit={handleSubmit((data) => handleCreateProject(data))}
+          onSubmit={handleSubmit((data) => handleEditProject(data))}
         >
           <div className="flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-2">
@@ -131,6 +147,7 @@ const CreateNewProjectDialog = ({
                 onValueChange={(value) =>
                   setValue("status", value as "" | "Live" | "Building")
                 }
+                defaultValue={status}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select Status" />
@@ -149,7 +166,7 @@ const CreateNewProjectDialog = ({
           </div>
           <DialogFooter>
             <Button type="submit" disabled={isPending}>
-              {isPending ? "Please wait..." : "Create"}
+              {isPending ? "Please wait..." : "Edit"}
             </Button>
           </DialogFooter>
         </form>
@@ -158,4 +175,4 @@ const CreateNewProjectDialog = ({
   );
 };
 
-export default CreateNewProjectDialog;
+export default EditProjectDialog;

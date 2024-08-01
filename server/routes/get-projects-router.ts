@@ -34,7 +34,7 @@ getProjectsRouter.get("/", async (req, res) => {
           },
           {
             teamMembers: {
-              has: user.id,
+              has: user.email,
             },
           },
         ],

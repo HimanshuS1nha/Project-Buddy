@@ -9,8 +9,15 @@ const createTaskRouter = Router();
 
 createTaskRouter.post("/", async (req, res) => {
   try {
-    const { status, assignedTo, endDate, projectId, startDate, title } =
-      await createTaskValidator.parseAsync(req.body);
+    const {
+      status,
+      assignedTo,
+      endDate,
+      projectId,
+      startDate,
+      title,
+      description,
+    } = await createTaskValidator.parseAsync(req.body);
 
     const { token } = req.cookies;
     if (!token) {
@@ -39,6 +46,7 @@ createTaskRouter.post("/", async (req, res) => {
         status,
         title,
         assignedTo,
+        description
       },
     });
 

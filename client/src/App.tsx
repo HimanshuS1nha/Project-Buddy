@@ -25,7 +25,7 @@ const App = () => {
         `${import.meta.env.VITE_API_URL}/is-logged-in`,
         { withCredentials: true }
       );
-      return data as { user: { name: string; email: string } };
+      return data as { user: { id: string; name: string; email: string } };
     },
     onSuccess: (data) => {
       setUser({ ...data.user, isLoggedIn: true });

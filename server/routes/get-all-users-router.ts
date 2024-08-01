@@ -3,9 +3,9 @@ import { verify } from "jsonwebtoken";
 
 import prisma from "../libs/db";
 
-const getProjectRouter = Router();
+const getAllUsersRouter = Router();
 
-getProjectRouter.post("/", async (req, res) => {
+getAllUsersRouter.get("/", async (req, res) => {
   try {
     const { token } = req.cookies;
     if (!token) {
@@ -26,24 +26,19 @@ getProjectRouter.post("/", async (req, res) => {
       return res.status(401).json({ error: "Not logged in" });
     }
 
-    const { id } = req.body;
-    if (!id) {
-      return res.status(422).json({ error: "Invalid request" });
-    }
-
-    const project = await prisma.projects.findUnique({
+    const users = await prisma.users.findMany({
       where: {
-        id,
+        id: {
+          not: user.id,
+        },
       },
-      include: {
-        tasks: true,
+      select: {
+        name: true,
+        id: true,
       },
     });
-    if (!project) {
-      return res.status(404).json({ error: "Project not found" });
-    }
 
-    return res.status(200).json({ project });
+    return res.status(200).json({ users });
   } catch (error) {
     return res
       .status(500)
@@ -51,4 +46,4 @@ getProjectRouter.post("/", async (req, res) => {
   }
 });
 
-export { getProjectRouter };
+export { getAllUsersRouter };

@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { formatDistanceToNowStrict } from "date-fns";
+import { useState } from "react";
 
 import Header from "@/components/Dashboard/Header";
 import { Input } from "@/components/ui/input";
@@ -18,7 +19,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SignedIn from "@/components/Dashboard/SignedIn";
-import { useState } from "react";
 import CreateNewProjectDialog from "@/components/Dashboard/CreateNewProjectDialog";
 import { ProjectType } from "types";
 import Loading from "@/components/Loading";

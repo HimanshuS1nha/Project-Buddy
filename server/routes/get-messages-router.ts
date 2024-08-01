@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { ZodError } from "zod";
 import { verify } from "jsonwebtoken";
 
 import prisma from "../libs/db";
 
-const getProjectRouter = Router();
+const getMessagesRouter = Router();
 
-getProjectRouter.post("/", async (req, res) => {
+getMessagesRouter.post("/", async (req, res) => {
   try {
     const { token } = req.cookies;
     if (!token) {
@@ -31,24 +32,31 @@ getProjectRouter.post("/", async (req, res) => {
       return res.status(422).json({ error: "Invalid request" });
     }
 
-    const project = await prisma.projects.findUnique({
+    const messages = await prisma.messages.findMany({
       where: {
-        id,
-      },
-      include: {
-        tasks: true,
+        OR: [
+          {
+            sentBy: id,
+            sentTo: user.id,
+          },
+          {
+            sentTo: id,
+            sentBy: user.id,
+          },
+        ],
       },
     });
-    if (!project) {
-      return res.status(404).json({ error: "Project not found" });
-    }
 
-    return res.status(200).json({ project });
+    return res.status(200).json({ messages });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Some error occured. Please try again later!" });
+    if (error instanceof ZodError) {
+      return res.status(422).json({ error: error.errors[0].message });
+    } else {
+      return res
+        .status(500)
+        .json({ error: "Some error occured. Please try again later!" });
+    }
   }
 });
 
-export { getProjectRouter };
+export { getMessagesRouter };

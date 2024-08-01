@@ -46,7 +46,10 @@ const LoginPage = () => {
         }
       );
 
-      return data as { message: string; user: { name: string; email: string } };
+      return data as {
+        message: string;
+        user: { id: string; name: string; email: string };
+      };
     },
     onSuccess: (data) => {
       toast.success(data.message);

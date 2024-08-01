@@ -6,7 +6,6 @@ export const createTaskValidator = z.object({
     .trim()
     .min(1, { message: "Title is required" }),
   description: z.string().optional(),
-  status: z.enum(["Pending", "Review", "Completed"]),
   startDate: z
     .string({ required_error: "Start date is required" })
     .trim()
@@ -15,11 +14,9 @@ export const createTaskValidator = z.object({
     .string({ required_error: "End date is required" })
     .trim()
     .min(1, { message: "End date is required" }),
-  projectId: z
-    .string({ required_error: "Project Id is required" })
-    .trim()
-    .min(1, { message: "Project Id is required" }),
   assignedTo: z.string({
     required_error: "Assigning to a team member is required",
   }),
 });
+
+export type createTaskValidatorType = z.infer<typeof createTaskValidator>;
