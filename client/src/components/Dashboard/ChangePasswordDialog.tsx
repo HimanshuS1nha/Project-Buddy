@@ -48,7 +48,8 @@ const ChangePasswordDialog = ({
     mutationFn: async (values: changePasswordValidatorType) => {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/change=password`,
-        { ...values }
+        { ...values },
+        { withCredentials: true }
       );
 
       return data as { message: string };
