@@ -3,9 +3,9 @@ import { verify } from "jsonwebtoken";
 
 import prisma from "../libs/db";
 
-const getProjectsRouter = Router();
+const getNotificationsRouter = Router();
 
-getProjectsRouter.get("/", async (req, res) => {
+getNotificationsRouter.get("/", async (req, res) => {
   try {
     const { token } = req.cookies;
     if (!token) {
@@ -26,22 +26,13 @@ getProjectsRouter.get("/", async (req, res) => {
       return res.status(401).json({ error: "Not logged in" });
     }
 
-    const projects = await prisma.projects.findMany({
+    const notifications = await prisma.joinRequests.findMany({
       where: {
-        OR: [
-          {
-            createdBy: user.email,
-          },
-          {
-            teamMembers: {
-              has: user.id,
-            },
-          },
-        ],
+        userEmail: user.email,
       },
     });
 
-    return res.status(200).json({ projects });
+    res.status(200).json({ notifications });
   } catch (error) {
     return res
       .status(500)
@@ -49,4 +40,4 @@ getProjectsRouter.get("/", async (req, res) => {
   }
 });
 
-export { getProjectsRouter };
+export { getNotificationsRouter };

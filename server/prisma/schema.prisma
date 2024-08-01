@@ -30,8 +30,9 @@ model Users {
   email    String @unique
   password String
 
-  Tasks    Tasks[]
-  Projects Projects[]
+  tasks        Tasks[]
+  Projects     Projects[]
+  JoinRequests JoinRequests[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,11 +43,13 @@ model Projects {
   title       String
   description String?
   status      ProjectStatus
+  teamMembers String[]
 
   createdBy String
   user      Users  @relation(references: [email], fields: [createdBy], onDelete: Cascade)
 
-  tasks Tasks[]
+  tasks        Tasks[]
+  JoinRequests JoinRequests[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,7 +62,7 @@ model Tasks {
   endDate   String
   status    TaskStatus
 
-  projectId String   @db.ObjectId
+  projectId  String   @db.ObjectId
   Projects   Projects @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   assignedTo String[]
   users      Users    @relation(fields: [assignedTo], references: [email])
@@ -80,4 +83,14 @@ model Comments {
   Tasks   Tasks?  @relation(fields: [tasksId], references: [id])
 
   createdAt DateTime @default(now())
+}
+
+model JoinRequests {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  projectId   String @db.ObjectId
+  userEmail   String
+  senderEmail String
+
+  user    Users    @relation(fields: [userEmail], references: [email])
+  project Projects @relation(fields: [projectId], references: [id])
 }
